@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Web Scraping Data</h1>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Link Href</th>
+        <th>Precio</th>
+        <th>Modelo</th>
+        <th>Kilometraje</th>
+        <th>Combustible</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for data in data %}
+        <tr>
+          <td>{{ data.id }}</td>
+          <td>{{ data.link_href }}</td>
+          <td>{{ data.precio }}</td>
+          <td>{{ data.modelo }}</td>
+          <td>{{ data.kilometraje }}</td>
+          <td>{{ data.combustible }}</td>
+          <td>
+            <a href="{{ url_for('edit_data', id=data.id) }}" class="btn btn-primary btn-sm">Editar</a>
+            <a href="{{ url_for('delete_data', id=data.id) }}" class="btn btn-danger btn-sm">Eliminar</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <a href="{{ url_for('new_data') }}" class="btn btn-success">Agregar nuevo</a>
+{% endblock %}

@@ -1,0 +1,103 @@
+{% extends './base.html' %}
+
+{% block title %}Home{% endblock %}
+{% block customCSS %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+
+{% endblock %}
+{% block body %}
+{% include 'navbar.html' %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Venta de vehículos Toyota</title>
+	<!-- Agrega aquí tus etiquetas de encabezado, como los enlaces a los archivos CSS y JS -->
+  <!-- Agrega aquí los enlaces a la biblioteca de iconos Font Awesome -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-8k8Jv1d9TuKmFVJrWU6eMv6cA1Khb7Jp0q3Jy+3p3hX9zBj+Jd2krZoHGu+Y10MKJY+1wOQb8mVxR9XmXzI+5g==" crossorigin="anonymous" />
+</head>
+<body>
+	<header>
+		<!-- Agrega aquí el contenido del encabezado, como el navbar -->
+    
+	</header>
+
+	<main>
+		<section id="hero">
+			<div class="container">
+				<h1>Venta de vehículos Toyota</h1>
+				<p>Encuentra el vehículo Toyota que estás buscando en nuestro inventario.</p>
+				<a href="#inventory" class="btn btn-primary">Ver inventario</a>
+			</div>
+		</section>
+
+		<section id="services">
+			<div class="container">
+				<h2>Nuestros servicios</h2>
+				<div class="row">
+					<div class="col-md-4">
+						<div class="card">
+							<img src="financiamiento.jpg" class="card-img-top" alt="Servicio 1">
+							<div class="card-body">
+								<h5 class="card-title">Financiamiento</h5>
+								<p class="card-text">Ofrecemos planes de financiamiento para que puedas adquirir tu Toyota de manera fácil y accesible.</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="card">
+							<img src="servicio2.jpg" class="card-img-top" alt="Servicio 2">
+							<div class="card-body">
+								<h5 class="card-title">Garantía</h5>
+								<p class="card-text">Todos nuestros vehículos Toyota cuentan con garantía para tu tranquilidad y seguridad.</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="card">
+							<img src="servicio3.jpg" class="card-img-top" alt="Servicio 3">
+							<div class="card-body">
+								<h5 class="card-title">Mantenimiento</h5>
+								<p class="card-text">Ofrecemos servicios de mantenimiento para que tu Toyota se mantenga en las mejores condiciones.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section id="inventory">
+			<div class="container">
+				<h2>Lista de vehículos Toyota en venta</h2>
+				<p>Consulta nuestro inventario de vehículos Toyota en venta.</p>
+				<!-- Agrega aquí el código para mostrar la tabla de autos_toyota y los botones de CRUD -->
+			</div>
+		</section>
+
+		<section id="dashboard">
+			<div class="container">
+				<h2>Dashboard de web scraping</h2>
+				<p>Visualiza los datos obtenidos a través del web scraping con estos gráficos.</p>
+				<!-- Agrega aquí los gráficos del dashboard -->
+			</div>
+		</section>
+	</main>
+  <footer>
+    <div class="footer-content">
+      <h3>Toyota</h3>
+      <p>Contáctanos y síguenos en nuestras redes sociales</p>
+      <ul class="socials">
+        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+        <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+        <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+      </ul>
+    </div>
+    <div class="footer-bottom">
+      <p>Derechos reservados &copy; 2023 Toyota. Diseñado por <span>Equipo de diseño Toyota</span></p>
+    </div>
+  </footer>
+	<!-- Agrega aquí tus etiquetas de pie de página, como los enlaces a los archivos JS -->
+</body>
+</html>
+
+{% endblock %}
