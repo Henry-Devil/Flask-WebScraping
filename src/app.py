@@ -13,11 +13,13 @@ from models.ModelUser import ModelUser
 from models.entities.User import User
 
 app = Flask(__name__)
+app.secret_key = 'B!1w8NAt1T^%kvhUI*S^'
 
 csrf = CSRFProtect()
 db = MySQL(app)
 login_manager_app = LoginManager(app)
 
+login_manager_app.login_view = 'login'
 
 @login_manager_app.user_loader
 def load_user(id):
@@ -79,14 +81,84 @@ def register():
         return redirect(url_for('login'))
     else:
         return render_template('auth/register.html')
+    
+@app.route('/data')
+def view_data():
+    conn = db.connection
+    cur = conn.cursor()
+    cur.execute('SELECT * FROM autos_toyota')
+    data = cur.fetchall()
+    return render_template('auth/data.html', data=data)
+
+
+@app.route('/new_data', methods=['POST'])
+def new_data():
+    if request.method == 'POST':
+        link_href = request.form['link_href']
+        precio = request.form['precio']
+        modelo = request.form['modelo']
+        kilometraje = request.form['kilometraje']
+        combustible = request.form['combustible']
+
+        cur = db.connection.cursor()
+        cur.execute('INSERT INTO autos_toyota (link_href, precio, modelo, kilometraje, combustible) VALUES (%s, %s, %s, %s, %s)',
+                    (link_href, precio, modelo, kilometraje, combustible))
+        db.connection.commit()
+        flash('Auto añadido exitosamente')
+        return redirect(url_for('auth/new_data.html'))
+
+@app.route('/edit_data/<id>')
+def edit_data(id):
+    cur = db.connection.cursor()
+    cur.execute('SELECT * FROM autos_toyota WHERE id = %s', (id,))
+    data = cur.fetchall()
+    return render_template('auth/edit_data.html', auto=data[0])
+
+@app.route('/update_data/<id>', methods=['POST'])
+def update_data(id):
+    if request.method == 'POST':
+        link_href = request.form['link_href']
+        precio = request.form['precio']
+        modelo = request.form['modelo']
+        kilometraje = request.form['kilometraje']
+        combustible = request.form['combustible']
+
+        cur = db.connection.cursor()
+        cur.execute("""
+            UPDATE autos_toyota
+            SET link_href = %s,
+                precio = %s,
+                modelo = %s,
+                kilometraje = %s,
+                combustible = %s
+            WHERE id = %s
+        """, (link_href, precio, modelo, kilometraje, combustible, id))
+        db.connection.commit()
+        flash('Auto actualizado exitosamente')
+        return redirect(url_for('auth/data.html'))
+
+@app.route('/delete_data/<string:id>')
+def delete_data(id):
+    cur = db.connection.cursor()
+    cur.execute('DELETE FROM autos_toyota WHERE id = %s', (id,))
+    db.connection.commit()
+    flash('Auto eliminado exitosamente')
+    return redirect(url_for('auth/data.html'))
+
 
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('login'))
 
+@app.route('/data')
+@login_required
+def data():
+    return render_template('auth/data.html')
+
 
 @app.route('/home')
+@login_required
 def home():
     return render_template('home.html')
 

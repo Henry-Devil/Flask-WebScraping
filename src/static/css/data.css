@@ -1,0 +1,133 @@
+/* Barra de navegación */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    }
+    
+    nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    }
+    
+    nav ul li {
+    margin-right: 1rem;
+    }
+    
+    nav ul li:last-child {
+    margin-right: 0;
+    }
+    
+    nav ul li a {
+    color: var(--color-text);
+    text-decoration: none;
+    font-size: var(--font-size-medium);
+    font-weight: bold;
+    padding: 0.5rem;
+    border-radius: var(--border-radius);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    
+    nav ul li a:hover {
+    background-color: #ddd;
+    }
+    
+    /* Data Table */
+    table {
+    width: 100%;
+    border-collapse: collapse;
+    }
+    
+    th, td {
+    text-align: center;
+    }
+    
+    th {
+    background: #333;
+    color: #333;
+    }
+    
+    tr:hover {
+    background: #ececec;
+    }
+    
+    /* Link colors */
+    a {
+    color: #333;
+    }
+    
+    a:hover {
+    color: #000;
+    }
+    
+    /* Form buttons */
+    .btn {
+    border-radius: 2px;
+    }
+    
+    .btn-primary {
+    background: #4dc0b5;
+    border: 1px solid #2aabd2;
+    }
+    
+    .btn-primary:hover {
+    background: #53cdaf;
+    border-color: #27a8b1;
+    }
+    
+    .btn-danger {
+    background: #ff6b6b;
+    border: 1px solid #ff3348;
+    }
+    
+    .btn-danger:hover {
+    background: #ff7979;
+    border-color: #e84444;
+    }
+    
+    /* Page padding */
+    .container {
+    padding-top: 2rem;
+    }
+    
+    /* Form styles */
+    form {
+    width: 80%;
+    margin: 0 auto;
+    }
+    
+    input, select {
+    width: 100%;
+    padding: .75rem 1rem;
+    border: 1px solid #ccc;
+    }
+
+    /* Custom styles */
+.sort-by-price {
+    cursor: pointer;
+  }
+  
+  .sort-by-price::after {
+    content: "";
+    display: inline-block;
+    margin-left: 0.5rem;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid #333;
+    vertical-align: middle;
+  }
+  
+  .sort-by-price.asc::after {
+    border-bottom: none;
+    border-top: 5px solid #333;
+    margin-left: 0.75rem;
+  }
+  
+  .sort-by-price.desc::after {
+    margin-left: 0.75rem;
+  }
