@@ -1,0 +1,103 @@
+{% extends './base.html' %}
+
+{% block title %}Gráficos | Dashboard{% endblock %}
+
+{% block customCSS %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block body %}
+    {% include 'navbar.html' %}
+
+    <h1>Dashboard</h1>
+
+    <h2>Gráfico de precio por modelo</h2>
+    <canvas id="precioPorModelo"></canvas>
+
+    <h2>Gráfico de kilometraje por modelo</h2>
+    <canvas id="kilometrajePorModelo"></canvas>
+
+    <h2>Gráfico de combustible por modelo</h2>
+    <canvas id="combustiblePorModelo"></canvas>
+
+    
+    <script>
+       // Obtener los datos de la plantilla y convertirlos en un objeto de JavaScript
+       var results = JSON.parse('{{ results | tojson | replace("\'", "\\\'") | safe }}');
+// Crear un diccionario para almacenar los datos de cada modelo
+var dataPorModelo = {};
+for (var i = 0; i < results.length; i++) {
+    var modelo = results[i]['modelo'];
+    if (!(modelo in dataPorModelo)) {
+        dataPorModelo[modelo] = {
+            precio: [],
+            kilometraje: [],
+            combustible: []
+        };
+    }
+    dataPorModelo[modelo]['precio'].push(results[i]['precio']);
+    dataPorModelo[modelo]['kilometraje'].push(results[i]['kilometraje']);
+    dataPorModelo[modelo]['combustible'].push(results[i]['combustible']);
+}
+
+// Crear los datos para cada gráfico
+var precioPorModeloData = [];
+var kilometrajePorModeloData = [];
+var combustiblePorModeloData = [];
+for (var modelo in dataPorModelo) {
+    precioPorModeloData.push({
+        label: modelo,
+        data: dataPorModelo[modelo]['precio']
+    });
+    kilometrajePorModeloData.push({
+        label: modelo,
+        data: dataPorModelo[modelo]['kilometraje']
+    });
+    combustiblePorModeloData.push({
+        label: modelo,
+        data: dataPorModelo[modelo]['combustible']
+    });
+}
+
+// Crear los gráficos
+var precioPorModeloChart = new Chart(document.getElementById('precioPorModelo').getContext('2d'), {
+    type: 'bar',
+    data: {
+        datasets: precioPorModeloData
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+
+var kilometrajePorModeloChart = new Chart(document.getElementById('kilometrajePorModelo').getContext('2d'), {
+    type: 'line',
+    data: {
+        datasets: kilometrajePorModeloData
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+
+var combustiblePorModeloChart = new Chart(document.getElementById('combustiblePorModelo').getContext('2d'), {
+    type: 'pie',
+    data: {
+        datasets: combustiblePorModeloData
+    }
+});
+    </script>
+{% endblock %}
