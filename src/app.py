@@ -4,6 +4,8 @@ from flask_wtf.csrf import CSRFProtect
 from flask_login import LoginManager, login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash
 import json
+from collections import Counter
+
 
 from config import config
 
@@ -211,63 +213,35 @@ def delete_data(id):
     flash('Auto eliminado exitosamente')
     return redirect(url_for('data'))
 
-@app.route('/dashboard')
+@app.route("/dashboard")
 def dashboard():
+    return render_template("auth/dashboard.html") 
 
-    # Consulta a la base de datos
+@app.route("/dashboard_data")
+def dashboard_data():
     cur = db.connection.cursor()
-    cur.execute("SELECT modelo, precio, kilometraje, combustible FROM autos_toyota")
-
-    # Obtener los datos de la base de datos
-    data = cur.fetchall()
-
-    # Cerrar la conexión a la base de datos
+    cur.execute("SELECT * FROM autos_toyota")
+    autos = cur.fetchall()
     cur.close()
 
-    # Transformar los datos en una lista de diccionarios
-    results = []
-    for row in data:
-        result = {}
-        result['modelo'] = row[0]
-        result['precio'] = row[1]
-        result['kilometraje'] = row[2]
-        result['combustible'] = row[3]
-        results.append(result)
+    # Datos para gráfica 1 (barras)
+    modelo_count = Counter([auto[3] for auto in autos])
+    modelo_data = [{"modelo": modelo, "cantidad": cuenta} for modelo, cuenta in modelo_count.items()]
 
-    # Convertir los datos a una cadena JSON
-    results_json = json.dumps(results)
+    # Datos para gráfica 2 (pastel)
+    combustible_count = Counter([auto[5] for auto in autos])
+    combustible_data = [{"combustible": combustible, "cantidad": cuenta} for combustible, cuenta in combustible_count.items()]
 
-    # Pasar los datos a la plantilla como una cadena JSON
-    return render_template('auth/dashboard.html', results=results_json)
+    # Datos para gráfica 3 (lineas)
+    precio_data = [auto[2] for auto in autos]
 
-# Endpoint para obtener los datos como un objeto JSON
-@app.route('/api/dashboard')
-def dashboard_api():
+    # Resto de gráficas...
 
-    # Consulta a la base de datos
-    cur = db.connection.cursor()
-    cur.execute("SELECT modelo, precio, kilometraje, combustible FROM autos_toyota")
-
-    # Obtener los datos de la base de datos
-    data = cur.fetchall()
-
-    # Cerrar la conexión a la base de datos
-    cur.close()
-
-    # Transformar los datos en una lista de diccionarios
-    results = []
-    for row in data:
-        result = {}
-        result['modelo'] = row[0]
-        result['precio'] = row[1]
-        result['kilometraje'] = row[2]
-        result['combustible'] = row[3]
-        results.append(result)
-
-    # Devolver los datos como un objeto JSON
-    return jsonify(results)
-
-
+    return jsonify({
+        'grafica1': modelo_data,  
+        'grafica2': combustible_data,
+        'grafica3': precio_data,
+    })
 @app.route('/logout')
 def logout():
     logout_user()

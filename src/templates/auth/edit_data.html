@@ -2,7 +2,7 @@
 
 {% block title %}Editar registro{% endblock %}
 {% block customCSS %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/data.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/edit_data.css') }}">
 {% endblock %}
 {% block body %}
 {% include 'navbar.html' %}
@@ -30,7 +30,9 @@
         <label for="combustible">Combustible:</label>
         <input type="text" class="form-control" id="combustible" name="combustible" value="{{ d[5] }}">
     </div>
+    
     <button type="submit" class="btn btn-primary">Actualizar</button>
+    <a href="{{ url_for('data') }}" class="btn btn-secondary">Volver</a>
   </form>
 {% else %}
     <p>No se encontró el registro solicitado</p>

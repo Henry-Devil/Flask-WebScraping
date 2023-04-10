@@ -18,6 +18,8 @@ body {
   margin: 0;
   padding: 0;
   color: var(--color-text);
+  padding-top: 50px;
+
 }
 
 /* Barra de navegación */
@@ -26,6 +28,11 @@ nav {
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;
 }
 
 nav ul {
@@ -86,6 +93,7 @@ h1, h2, h3, h4, h5, h6 {
   background-position: center ;
   padding: 10rem 0;
   text-align: center;
+  background-color: #f2f2f2;
 }
 
 #hero h1 {
@@ -103,15 +111,23 @@ h1, h2, h3, h4, h5, h6 {
 /* Sección de servicios y anunciate */
 .service-section,
 #anunciate {
-  background-color: var(--color-background);
-  padding: 6rem 0;
-  display: center;
-  justify-content: center;
+  display: flex;
+  justify-content: flex-end;
   align-items: center;
+  height: 50vh;
+  text-align: center;
+  background-color: #f2f2f2;
 }
 
+.container {
+  max-width: 1000px;
+  transition: all;
+  box-sizing: border-box;
+}
 
-
+.col-md-6 {
+  margin: 0 auto;
+}
 .service-section h2,
 #anunciate h2 {
   text-align: center;

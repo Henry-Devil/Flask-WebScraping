@@ -1,103 +1,88 @@
 {% extends './base.html' %}
 
-{% block title %}Gráficos | Dashboard{% endblock %}
+{% block title %}Autos Usados en Venta | Mi Tienda de Autos{% endblock %}
 
 {% block customCSS %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
 {% endblock %}
 
 {% block body %}
-    {% include 'navbar.html' %}
+{% include 'navbar.html' %}
+<!DOCTYPE html>
+<html>
 
-    <h1>Dashboard</h1>
+<head>
+    <meta charset="utf-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+    <link rel="stylesheet" href="dashboard.css">
+</head>
 
-    <h2>Gráfico de precio por modelo</h2>
-    <canvas id="precioPorModelo"></canvas>
-
-    <h2>Gráfico de kilometraje por modelo</h2>
-    <canvas id="kilometrajePorModelo"></canvas>
-
-    <h2>Gráfico de combustible por modelo</h2>
-    <canvas id="combustiblePorModelo"></canvas>
-
-    
-    <script>
-       // Obtener los datos de la plantilla y convertirlos en un objeto de JavaScript
-       var results = JSON.parse('{{ results | tojson | replace("\'", "\\\'") | safe }}');
-// Crear un diccionario para almacenar los datos de cada modelo
-var dataPorModelo = {};
-for (var i = 0; i < results.length; i++) {
-    var modelo = results[i]['modelo'];
-    if (!(modelo in dataPorModelo)) {
-        dataPorModelo[modelo] = {
-            precio: [],
-            kilometraje: [],
-            combustible: []
-        };
-    }
-    dataPorModelo[modelo]['precio'].push(results[i]['precio']);
-    dataPorModelo[modelo]['kilometraje'].push(results[i]['kilometraje']);
-    dataPorModelo[modelo]['combustible'].push(results[i]['combustible']);
-}
-
-// Crear los datos para cada gráfico
-var precioPorModeloData = [];
-var kilometrajePorModeloData = [];
-var combustiblePorModeloData = [];
-for (var modelo in dataPorModelo) {
-    precioPorModeloData.push({
-        label: modelo,
-        data: dataPorModelo[modelo]['precio']
+<body>
+    <div class="container">
+        <h1>Dashboard</h1>
+        <div class="row">
+            <div class="col-md-6"> <canvas id="myChart1"></canvas> </div>
+            <p>Gráfica 1 - Barras: Esta gráfica muestra la cantidad de automóviles por modelo. Cada barra representa un
+                modelo de automóvil y la altura de la barra representa la cantidad de automóviles de ese modelo en la
+                base de datos. Los datos para esta gráfica se han obtenido a partir de la información de los autos y se
+                han contabilizado la cantidad de veces que aparece cada modelo en la lista de autos. Luego, se ha creado
+                una lista de diccionarios con la información del modelo y la cantidad de veces que aparece. Esta lista
+                se utiliza para crear la gráfica de barras.</p>
+            <div class="col-md-6"> <canvas id="myChart2"></canvas> </div>
+            <p>Gráfica 2 - Pastel: Esta gráfica muestra la cantidad de automóviles por tipo de combustible. Cada sección
+                del pastel representa un tipo de combustible y el tamaño de la sección representa la cantidad de
+                automóviles que utilizan ese tipo de combustible. Los datos para esta gráfica se han obtenido a partir
+                de la información de los autos y se han contabilizado la cantidad de veces que aparece cada tipo de
+                combustible en la lista de autos. Luego, se ha creado una lista de diccionarios con la información del
+                tipo de combustible y la cantidad de veces que aparece. Esta lista se utiliza para crear la gráfica de
+                pastel.</p>
+        </div>
+        <div class="row"> En resumen, estas gráficas proporcionan una visión general de la cantidad de autos por modelo
+            y por tipo de combustible, lo que puede ser útil en el análisis de datos del negocio o proyecto en cuestión.
+            Las gráficas de barras y pastel son herramientas comunes de visualización de datos y pueden ayudar a los
+            usuarios a comprender mejor la información presentada de una manera clara y fácil de entender. </div>
+    </div>
+</body>
+<script>fetch('/dashboard_data').then(response => response.json()).then(data => {
+        console.log(data);
+        //primer grafico
+        var ctx1 = document.getElementById('myChart1').getContext('2d'); var myChart1 = new Chart(ctx1, { type: 'bar', data: { labels: data.grafica1.map(d => d.modelo), datasets: [{ label: 'Cantidad de autos por modelo', data: data.grafica1.map(d => d.cantidad), backgroundColor: 'rgba(255, 99, 132, 0.2)', borderColor: 'rgba(255, 99, 132, 1)', borderWidth: 1 }] }, options: {} });
+        // Aquí se crea el segundo gráfico
+        var ctx2 = document.getElementById('myChart2').getContext('2d');
+        var myChart2 = new Chart(ctx2, {
+            type: 'pie',
+            data: {
+                labels: data.grafica2.map(d => d.combustible),
+                datasets: [{
+                    label: 'Cantidad de autos por tipo de combustible',
+                    data: data.grafica2.map(d => d.cantidad),
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {}
+        });
     });
-    kilometrajePorModeloData.push({
-        label: modelo,
-        data: dataPorModelo[modelo]['kilometraje']
-    });
-    combustiblePorModeloData.push({
-        label: modelo,
-        data: dataPorModelo[modelo]['combustible']
-    });
-}
+</script>
 
-// Crear los gráficos
-var precioPorModeloChart = new Chart(document.getElementById('precioPorModelo').getContext('2d'), {
-    type: 'bar',
-    data: {
-        datasets: precioPorModeloData
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }]
-        }
-    }
-});
-
-var kilometrajePorModeloChart = new Chart(document.getElementById('kilometrajePorModelo').getContext('2d'), {
-    type: 'line',
-    data: {
-        datasets: kilometrajePorModeloData
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }]
-        }
-    }
-});
-
-var combustiblePorModeloChart = new Chart(document.getElementById('combustiblePorModelo').getContext('2d'), {
-    type: 'pie',
-    data: {
-        datasets: combustiblePorModeloData
-    }
-});
-    </script>
+</html>
 {% endblock %}
