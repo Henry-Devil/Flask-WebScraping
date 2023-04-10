@@ -1,85 +1,89 @@
-/* Barra de navegación */
-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 999;
+* {
+  font-family: "Arial", sans-serif;  
+}  
+
+body {
+  background: #f5f5f5;
+  padding: 5rem 0;  
+}   
+
+.container {
+  width: 80%;
+  margin: auto;
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  padding: 30px; 
+}  
+
+h1 {
+  text-align: center;
+  font-size: 3rem;
+  margin-bottom: 30px;
+  color: #333;
+}  
+
+h6{
+  text-align: center;
+  font-size: 3rem;
+  margin-bottom: 30px;
+  color: #333;
+  padding: 1rem 0;
+}
+
+p {
+  text-indent: 30px;
+  line-height: 1.7; 
+  color: #555;
+}   
+
+.row {
+  margin-bottom: 60px;  
+}
+
+#myChart1, 
+#myChart2 {
+  width: 100%;
+  margin: 20px 0 50px 0;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background: #fff;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}   
+
+#myChart1{
+  box-shadow: 0 0 10px rgba(0,0,0,0.2); 
+}
+
+.info {
+  background: #333;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin-bottom: 30px;  
+}
+
+.info h2 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.info p { 
+  margin: 10px 0 0;
+  line-height: 1.5;
+}
+
+.col-md-6 {
+  padding: 0 30px; 
+} 
+
+@media (min-width: 768px) {
+  .col-md-6 {
+    width: 50%;
   }
-  
-  nav ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-  }
-  
-  nav ul li {
-    margin-right: 1rem;
-  }
-  
-  nav ul li:last-child {
-    margin-right: 0;
-  }
-  
-  nav ul li a {
-    color: var(--color-text);
-    text-decoration: none;
-    font-size: var(--font-size-medium);
-    font-weight: bold;
-    padding: 0.5rem;
-    border-radius: var(--border-radius);
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  
-  nav ul li a:hover {
-    background-color: #ddd;
-  }
-  * {
-    font-family: "Arial", sans-serif;  /* Cambié la fuente a Arial */
-  }  
-  
-  body {
-    padding: 10rem 0;   
-  }   
-  
-  .container {
-    width: 80%;
-    margin: auto;
-  }  
-  
-  h1 {
-    text-align: center;
-    font-size: 2.5rem;
-    padding-bottom: 10px;
-  }  
-  
   p {
-    text-indent: 30px;
-    line-height: 1.7; 
-  }   
-  
-  .row {
-    margin-bottom: 60px;     
+    margin-bottom: 0;
   }
-  
-  #myChart1, #myChart2 {
-    width: 100%;
-    margin: 20px 0;
-    display: block;
-    margin-left: auto;
-    margin-right: auto; /* Centré los gráficos */ 
-  }   
-  
-  @media (min-width: 768px) {
-    .col-md-6 {
-      width: 50%;
-    }
-    p {
-      margin-bottom: 0;
-    }
-  }
+}
